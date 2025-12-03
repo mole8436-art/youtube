@@ -137,7 +137,7 @@ export const generateNewScript = async (
   `;
 
   const response = await ai.models.generateContent({
-    model: "gemini-3-pro-preview", // Using Pro for better creative writing capabilities
+    model: "gemini-2.5-flash", // Using Flash for better availability and quota
     contents: prompt,
     config: {
       responseMimeType: "application/json",
