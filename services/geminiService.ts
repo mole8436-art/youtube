@@ -31,14 +31,14 @@ export const analyzeScript = async (scriptText: string): Promise<AnalysisResult>
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: `Analyze the following YouTube script text. Be critical and insightful.
+    contents: `다음 유튜브 대본을 분석해주세요. 비판적이고 통찰력 있게 분석해주세요.
     
-    Script:
+    대본:
     ${scriptText}`,
     config: {
       responseMimeType: "application/json",
       responseSchema: schema,
-      systemInstruction: "You are an expert YouTube strategist. Analyze scripts to help creators improve retention and click-through rates."
+      systemInstruction: "당신은 유튜브 전략 전문가입니다. 대본을 분석하여 크리에이터가 시청 유지율과 클릭률을 개선할 수 있도록 도와주세요. 모든 응답은 한국어로 작성해주세요."
     }
   });
 
@@ -66,14 +66,14 @@ export const generateVideoIdeas = async (analysis: AnalysisResult): Promise<stri
   };
 
   const prompt = `
-  Based on the following channel analysis, generate 5 viral YouTube video ideas that fit this creator's style and audience perfectly.
+  다음 채널 분석을 기반으로, 이 크리에이터의 스타일과 시청자에게 완벽하게 맞는 바이럴 유튜브 영상 아이디어 5개를 생성해주세요.
   
-  Analysis:
-  - Tone: ${analysis.tone}
-  - Audience: ${analysis.targetAudience}
-  - Structure: ${analysis.structure}
+  분석 결과:
+  - 톤: ${analysis.tone}
+  - 타겟 시청자: ${analysis.targetAudience}
+  - 구조: ${analysis.structure}
   
-  Return only the titles or short concept descriptions.
+  제목 또는 짧은 컨셉 설명만 반환해주세요. 모든 응답은 한국어로 작성해주세요.
   `;
 
   const response = await ai.models.generateContent({
@@ -125,15 +125,17 @@ export const generateNewScript = async (
   };
 
   const prompt = `
-  Create a NEW YouTube script about the topic: "${topic}".
+  다음 주제에 대한 새로운 유튜브 대본을 작성해주세요: "${topic}"
   
-  Use the following style analysis to match the persona and success factors of the source material:
-  - Tone: ${analysis.tone}
-  - Structure: ${analysis.structure}
-  - Pacing: ${analysis.pacing}
-  - Audience: ${analysis.targetAudience}
+  원본 자료의 페르소나와 성공 요소를 반영하여 다음 스타일 분석을 활용하세요:
+  - 톤: ${analysis.tone}
+  - 구조: ${analysis.structure}
+  - 페이싱: ${analysis.pacing}
+  - 타겟 시청자: ${analysis.targetAudience}
   
-  Additional User Instructions: ${additionalInstructions}
+  추가 사용자 지시사항: ${additionalInstructions}
+  
+  모든 응답은 한국어로 작성해주세요.
   `;
 
   const response = await ai.models.generateContent({
@@ -142,7 +144,7 @@ export const generateNewScript = async (
     config: {
       responseMimeType: "application/json",
       responseSchema: schema,
-      systemInstruction: "You are a world-class YouTube scriptwriter. You write engaging, high-retention scripts that keep viewers watching until the end. Write in Korean."
+      systemInstruction: "당신은 세계적 수준의 유튜브 대본 작가입니다. 시청자가 끝까지 시청하도록 몰입도 높은 대본을 작성합니다. 모든 내용은 한국어로 작성해주세요."
     }
   });
 
